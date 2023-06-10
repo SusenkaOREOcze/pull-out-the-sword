@@ -1,5 +1,5 @@
 //Websocekt variables
-const url = "ws://localhost:9876";
+const url = "wss://pullout-the-sword.glitch.me";
 const socket = new WebSocket(url);
 
 
@@ -18,4 +18,8 @@ function msgGeneration(goal) {
 //handling message event
 socket.onmessage = function(event) {
     msgGeneration(event.data)
+}
+
+socket.onclose = () => {
+  const socket = new WebSocket(url);
 }
