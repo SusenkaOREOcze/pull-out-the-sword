@@ -1,8 +1,6 @@
 const sword = document.getElementById('sword');
 let countText = document.getElementById('count');
 
-var count = 0;
-
 countText.textContent = 1000000000000000;
 
 var isClicked = false;
@@ -24,8 +22,7 @@ if (isClicked) {
     await sleep(250);
     sword.style.transform = 'rotate(180deg)';
 
-    count++;
-    sendMsg(count);
+    sendMsg(1);
 
     isClicked = false;
     sword.onclick = moveSword;
