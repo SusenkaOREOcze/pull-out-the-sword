@@ -39,6 +39,7 @@ wsServer.on("connection", function(ws) {
         // reset the counter
         if (data.type == "reset") {
             goalData.goal = process.env.GOAL;
+            goalData.chance = null;
         };
 
         // update count
