@@ -20,7 +20,7 @@ async function moveSword() {
         await sleep(270);
         sword.style.transform = 'rotate(0deg)';
 
-        sendMsg(1);
+        sendMsg("click", 1);
 
         isClicked = false;
         sword.onclick = moveSword;
