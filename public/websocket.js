@@ -4,7 +4,7 @@
 const url = "ws://localhost:3000";
 var socket = new WebSocket(url);
 
-// var countText = document.getElementById('count'); from index.js
+const infoBox = document.getElementById('infoBox');
 
 //Sending message from client
 function sendMsg(type, count) {
@@ -41,14 +41,40 @@ async function msgGeneration(data) {
 
     if (data.goal == 0) {
         if ((55 < data.chance) && (data.chance < 75)) {
+            abortMoveSwordInput = true;
             countText.style.color = "green";
             countText.textContent = "You got lucky this time!";
+
+            
+            sword.style.animation = "swordPullOut 2s ease-in-out forwards";
+            
             await sleep(2000);
-            sendMsg("reset", null);
+            infoBox.textContent = "Click to restart...";
+            infoBox.style.display = "flex";
+
+            document.body.addEventListener('click', () => {
+                infoBox.style.display = "none";
+                infoBox.textContent = "";
+                sword.style.animation = "swordPullIn 2s ease-in-out forwards";
+                sendMsg("reset", null);
+                abortMoveSwordInput = false;
+            }, {once: true})
+
         } else {
+            abortMoveSwordInput = true;
             countText.style.color = "red";
             countText.textContent = "HaHaHa... you thought you could pull me out? Try again!";;
-            abortMoveSwordInput = true;
+
+            await sleep(2000);
+            infoBox.textContent = "Click to restart...";
+            infoBox.style.display = "flex";
+
+            document.body.addEventListener('click', () => {
+                infoBox.style.display = "none";
+                infoBox.textContent = "";
+                sendMsg("reset", null);
+                abortMoveSwordInput = false;
+            }, {once: true})
         };
     };
 };
