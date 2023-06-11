@@ -22,7 +22,7 @@ async function msgGeneration(data) {
     if (data.goal > 500) {
         countText.style.color = "white";
         countText.textContent = data.goal;
-    };
+    }
 
     if (data.goal < 500) {
         countText.style.color = "yellow";
@@ -40,14 +40,15 @@ async function msgGeneration(data) {
     };
 
     if (data.goal == 0) {
-        if (55 < data.chance < 75) {
+        if ((55 < data.chance) && (data.chance < 75)) {
             countText.style.color = "green";
             countText.textContent = "You got lucky this time!";
-            await sleep(1000);
+            await sleep(2000);
             sendMsg("reset", null);
         } else {
             countText.style.color = "red";
             countText.textContent = "HaHaHa... you thought you could pull me out? Try again!";;
+            abortMoveSwordInput = true;
         };
     };
 };

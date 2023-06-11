@@ -2,6 +2,7 @@ const sword = document.getElementById('sword');
 let countText = document.getElementById('count');
 
 var isClicked = false;
+var abortMoveSwordInput = false;
 
 sword.onclick = moveSword;
 
@@ -20,7 +21,9 @@ async function moveSword() {
         await sleep(270);
         sword.style.transform = 'rotate(0deg)';
 
-        sendMsg("click", 1);
+        if (!abortMoveSwordInput) {
+            sendMsg("click", 1);
+        }
 
         isClicked = false;
         sword.onclick = moveSword;
