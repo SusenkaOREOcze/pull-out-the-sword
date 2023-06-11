@@ -7,40 +7,53 @@ var socket = new WebSocket(url);
 // var countText = document.getElementById('count'); from index.js
 
 //Sending message from client
-function sendMsg(count) {
-    socket.send(count);
-}
+function sendMsg(type, count) {
+    socket.send(
+        JSON.stringify({
+            type: type,
+            count: count
+        })
+    );
+};
 
 //Creating DOM element to show received messages on browser page
-function msgGeneration(goal) {
-    if (goal > 500) {
+async function msgGeneration(data) {
+
+    if (data.goal > 500) {
         countText.style.color = "white";
-        countText.textContent = goal;
-    }
-    if (goal < 500) {
+        countText.textContent = data.goal;
+    };
+
+    if (data.goal < 500) {
         countText.style.color = "yellow";
-        countText.textContent = goal;
-    }
-    if (goal < 200) {
+        countText.textContent = data.goal;
+    };
+
+    if (data.goal < 200) {
         countText.style.color = "orange";
-        countText.textContent = goal;
-    }
-    if (goal < 100) {
+        countText.textContent = data.goal;
+    };
+
+    if (data.goal < 100) {
         countText.style.color = "red";
-        countText.textContent = goal;
-    }
-    if (goal == 0) {
-        countText.style.color = "red";
-        countText.textContent = "HaHaHa... you thought you could pull me out? Try again!";;
-    }
-}
+        countText.textContent = data.goal;
+    };
+
+    if (data.goal == 0) {
+        if (55 < data.chance < 75) {
+            countText.style.color = "green";
+            countText.textContent = "You got lucky this time!";
+            await sleep(1000);
+            sendMsg("reset", null);
+        } else {
+            countText.style.color = "red";
+            countText.textContent = "HaHaHa... you thought you could pull me out? Try again!";;
+        };
+    };
+};
 
 
 //handling message event
 socket.onmessage = function(event) {
-    msgGeneration(event.data)
-}
-
-socket.onclose = () => {
-    socket = new WebSocket(url);
-}
+    msgGeneration(JSON.parse(event.data));
+};
